@@ -38,6 +38,12 @@ class LazyTensorTrace {
         lazyOpsCache.removeAll()
     }
 
+    var tfFunction: TFFunctionBuilder.FunctionDescription {
+        let graphDescription = TFGraphDescription(self)
+        let function = graphDescription.tfFunction
+        return function
+    }
+
     var signature: String {
         let inputsDesc: [String] = inputs.map { input in
             let dtypeAttr = input.attributes["dtype"]!
