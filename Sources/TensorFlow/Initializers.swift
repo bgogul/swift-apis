@@ -380,8 +380,9 @@ public extension Tensor where Scalar: BinaryFloatingPoint {
                                 Int32.random(in: Int32.min..<Int32.max))
     ) {
         self = Raw.statelessRandomUniform(
-          shape: Tensor<Int32>((0..<shape.rank).map { Int32(shape[$0]) }),
-          seed: Tensor<Int32>([seed.0, seed.1])
+            shape: LazyTensor.makeSymbolic(
+                Tensor<Int32>((0..<shape.rank).map { Int32(shape[$0]) })),
+            seed: LazyTensor.makeSymbolic(Tensor<Int32>([seed.0, seed.1]))
         )
     }
 
