@@ -1003,9 +1003,9 @@ internal extension Tensor.IndexPath {
             }
         }
 
-        self.begin = Tensor<Int32>(begin)
-        self.end = Tensor<Int32>(end)
-        self.strides = Tensor<Int32>(strides)
+        self.begin = LazyTensor.makeSymbolic(Tensor<Int32>(begin))
+        self.end = LazyTensor.makeSymbolic(Tensor<Int32>(end))
+        self.strides = LazyTensor.makeSymbolic(Tensor<Int32>(strides))
         self.beginMask = beginMask
         self.endMask = endMask
         self.ellipsisMask = ellipsisMask
