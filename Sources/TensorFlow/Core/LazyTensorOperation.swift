@@ -33,9 +33,8 @@ class LazyTensor: _AnyTensorHandle {
         switch handle {
         case .concrete(let h, _):
             return h
-        case .symbolic(_, _, _):
-            assert(false, "TODO: to be send out in a separate PR.")
-            // return op.materialized(index: index)
+        case .symbolic(let op, let index, _):
+            return op.materialized(index: index)
         }
     }
 
