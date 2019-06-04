@@ -42,11 +42,11 @@ public class TFETensorHandle: _AnyTensorHandle {
 
     public init(_owning base: CTensorHandle) {
         self._cTensorHandle = base
-        liveHandles += 1
+        TFETensorHandle.liveHandles += 1
     }
 
     deinit {
-        liveHandles -= 1
+        TFETensorHandle.liveHandles -= 1
         debugLog("De-initializing TensorHandle.")
         TFE_DeleteTensorHandle(_cTensorHandle)
         debugLog("Returning from deinit of TensorHandle.")
