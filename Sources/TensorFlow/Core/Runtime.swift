@@ -1127,7 +1127,9 @@ func _TFCEagerExecute(
         checkOk(status)
     } else {
         debugLog("Executing eager op \(op).")
+        LazyTensor._materializationCallback("eager")
         TFE_Execute(op, retvals, retvalCount, status)
+        LazyTensor._materializationCallback("execute")
     }
 }
 
