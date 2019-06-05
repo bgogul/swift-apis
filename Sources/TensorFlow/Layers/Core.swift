@@ -16,7 +16,7 @@ public extension Tensor where Scalar: TensorFlowFloatingPoint {
     /// Computes dropout given a probability.
     @differentiable(wrt: self where Scalar: Differentiable)
     func droppingOut(probability: Double) -> Tensor {
-        let noise = Tensor(randomUniform: shape)
+        let noise = Tensor(randomUniformShape: shapeTensor)
         let keepMask = noise .>= Scalar(probability)
         let keepProbability = Scalar(1.0 - probability)
         return self * Tensor(keepMask) / Tensor(keepProbability)
@@ -93,9 +93,9 @@ public struct Flatten<Scalar: TensorFlowFloatingPoint>: Layer {
     /// - Returns: The output.
     @differentiable
     public func callAsFunction(_ input: Tensor<Scalar>) -> Tensor<Scalar> {
-        let batchSize = input.shape[0]
-        let remaining = input.shape[1..<input.rank].contiguousSize
-        return input.reshaped(to: [batchSize, remaining])
+        let batchSize = input.shapeTensor[0]
+        let flattenedShape = Tensor<Int32>([batchSize, Tensor<Int32>(-1)])
+        return input.reshaped(toShape: flattenedShape)
     }
 }
 

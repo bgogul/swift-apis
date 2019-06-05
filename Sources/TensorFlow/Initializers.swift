@@ -386,6 +386,18 @@ public extension Tensor where Scalar: BinaryFloatingPoint {
         )
     }
 
+    init(
+        randomUniformShape shapeTensor: Tensor<Int32>,
+        seed: (Int32, Int32) = (Int32.random(in: Int32.min..<Int32.max),
+                                Int32.random(in: Int32.min..<Int32.max))
+    ) {
+        self = Raw.statelessRandomUniform(
+            shape: shapeTensor,
+            seed: LazyTensor.makeSymbolic(Tensor<Int32>([seed.0, seed.1]))
+        )
+    }
+
+
     /// Creates a tensor with the specified shape, randomly sampling scalar values
     /// from a normal distribution, using the default random number generator.
     ///

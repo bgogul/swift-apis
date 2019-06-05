@@ -31,7 +31,7 @@ public protocol Optimizer {
 
 fileprivate extension Tensor where Scalar: Numeric {
     mutating func resetToZero() {
-        self = Tensor(zeros: shape)
+        self = Tensor(zerosLike: self)
     }
 }
 

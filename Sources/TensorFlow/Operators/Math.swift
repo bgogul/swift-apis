@@ -1893,16 +1893,16 @@ public func matmul<Scalar: Numeric>(
     _ rhs: Tensor<Scalar>,
     transposed transposeB: Bool = false
 ) -> Tensor<Scalar> {
-    switch (lhs.rank, rhs.rank) {
-    case (3..., 3...):
-        return Raw.batchMatMulV2(lhs, rhs, adjX: transposeA, adjY: transposeB)
-    case (2, 3...):
-        return Raw.batchMatMulV2(lhs.expandingShape(at: 1), rhs, adjX: transposeA, adjY: transposeB)
-    case (3..., 2):
-        return Raw.batchMatMulV2(lhs, rhs.expandingShape(at: 1), adjX: transposeA, adjY: transposeB)
-    default:
+    // switch (lhs.rank, rhs.rank) {
+    // case (3..., 3...):
+    //     return Raw.batchMatMulV2(lhs, rhs, adjX: transposeA, adjY: transposeB)
+    // case (2, 3...):
+    //     return Raw.batchMatMulV2(lhs.expandingShape(at: 1), rhs, adjX: transposeA, adjY: transposeB)
+    // case (3..., 2):
+    //     return Raw.batchMatMulV2(lhs, rhs.expandingShape(at: 1), adjX: transposeA, adjY: transposeB)
+    // default:
         return Raw.matMul(lhs, rhs, transposeA: transposeA, transposeB: transposeB)
-    }
+    // }
 }
 
 @inlinable
