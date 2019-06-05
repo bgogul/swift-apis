@@ -112,8 +112,9 @@ public class Adam<Model: Layer>: Optimizer
             secondMoments[keyPath: kp] =
                 secondMoments[keyPath: kp] * beta2 + (1 - beta2) *
                 direction[keyPath: kp] * direction[keyPath: kp]
+            let stepSizeTensor = LazyTensor.makeSymbolic(Tensor(stepSize))
             model[keyPath: kp] -=
-                stepSize * firstMoments[keyPath: kp] / (sqrt(secondMoments[keyPath: kp]) + epsilon)
+                stepSizeTensor * firstMoments[keyPath: kp] / (sqrt(secondMoments[keyPath: kp]) + epsilon)
         }
         for kp in model.recursivelyAllWritableKeyPaths(to: Tensor<Double>.self) {
             firstMoments[keyPath: kp] =
@@ -122,8 +123,9 @@ public class Adam<Model: Layer>: Optimizer
             secondMoments[keyPath: kp] =
                 secondMoments[keyPath: kp] * Double(beta2) + Double(1 - beta2) *
                 direction[keyPath: kp] * direction[keyPath: kp]
+            let stepSizeTensor = LazyTensor.makeSymbolic(Tensor(Double(stepSize)))
             model[keyPath: kp] -=
-                Double(stepSize) * firstMoments[keyPath: kp] /
+                stepSizeTensor * firstMoments[keyPath: kp] /
                 sqrt(secondMoments[keyPath: kp]) + Double(epsilon)
         }
     }
