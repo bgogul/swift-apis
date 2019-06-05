@@ -344,11 +344,14 @@ extension LazyTensorOperation {
     }
 
 
+    static var fcount = 0
     private static func materializeLiveTensors(_ lazyOp: LazyTensorOperation) {
         LazyTensor._materializationCallback("lazy")
         let lazyTrace = LazyTensorTrace(lazyOp)
         if _RuntimeConfig.printsDebugLog {
+            print("\(fcount): lazyDescription.nameWithid")
             lazyTrace.debugPrint()
+            fcount += 1
         }
         LazyTensor._materializationCallback("graphdesc")
         let function = lazyTrace.tfFunction
