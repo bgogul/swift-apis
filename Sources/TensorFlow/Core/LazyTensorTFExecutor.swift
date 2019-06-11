@@ -350,7 +350,7 @@ extension LazyTensorOperation {
         let lazyTrace = LazyTensorTrace(lazyOp)
         if _RuntimeConfig.printsDebugLog {
             print("\(fcount): lazyDescription.nameWithid")
-            lazyTrace.debugPrint()
+            print("\(lazyTrace)")
             fcount += 1
         }
         LazyTensor._materializationCallback("graphdesc")
