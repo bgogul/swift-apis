@@ -108,7 +108,9 @@ class TFGraphBuilder {
     func newTFGraphNode(
         name: String,
         attrs: [String: LazyTensorOperation.Attribute],
-        inputs: [Input]) -> CTFOperation? {
+        inputs: [Input],
+        device: String?
+    ) -> CTFOperation? {
         // Create a new graph node now.
         let desc: CTFOperationDescription! = TF_NewOperation(
             graph, name, newNodeName(base: name))
@@ -131,6 +133,9 @@ class TFGraphBuilder {
             }
         }
 
+        if let device = device {
+            TF_SetDevice(desc, device)
+        }
         // Finalize operation.
         let graphNode = TF_FinishOperation(desc, status)
         checkOk(status)
@@ -273,7 +278,8 @@ class TFGraphDescription {
             let graphNode = graphBuilder.newTFGraphNode(
                 name: op.name,
                 attrs: op.attributes,
-                inputs: opInputs)
+                inputs: opInputs,
+                device: op.device)
             let id = ObjectIdentifier(op)
             graphNodesCache[id] = graphNode
             if op.name != "Placeholder" {
