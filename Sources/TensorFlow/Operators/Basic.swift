@@ -625,7 +625,7 @@ public extension Tensor where Scalar: Numeric {
     func unbroadcasted(toShape otherShape: Tensor<Int32>) -> Tensor {
         // TODO: Simplify this once differentiating control flow is supported.
 	    return unbroadcasted(to: {
-	      precondition(otherShape.rank == 1)
+	      // precondition(otherShape.rank == 1)
 	      return TensorShape(otherShape.scalars.map(Int.init))
 	    }())
     }

@@ -1929,11 +1929,12 @@ internal func _vjpMatmul<Scalar: TensorFlowFloatingPoint>(
             lhsGrad = matmul(v, transposed: true, rhs, transposed: true)
             rhsGrad = matmul(lhs, transposed: true, v, transposed: true)
         }
-        switch (lhs.rank, rhs.rank) {
-        case (3..., 3...): return (lhsGrad.sum(squeezingAxes: 1), rhsGrad)
-        case (3..., 2): return (lhsGrad, rhsGrad.sum(squeezingAxes: 1))
-        default: return (lhsGrad, rhsGrad)
-        }
+        // switch (lhs.rank, rhs.rank) {
+        // case (3..., 3...): return (lhsGrad.sum(squeezingAxes: 1), rhsGrad)
+        // case (3..., 2): return (lhsGrad, rhsGrad.sum(squeezingAxes: 1))
+        // default:
+                return (lhsGrad, rhsGrad)
+        // }
     })
 }
 

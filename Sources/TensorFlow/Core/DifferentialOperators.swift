@@ -29,7 +29,7 @@ public extension Differentiable {
         in f: @differentiable (Self) -> Tensor<R>
     ) -> (value: Tensor<R>, gradient: TangentVector) {
         let (y, pb) = self.valueWithPullback(in: f)
-        precondition(y.rank == 0)
+        // precondition(y.rank == 0)
         return (y, pb(Tensor<R>(1)))
     }
 
@@ -47,7 +47,7 @@ public extension Differentiable {
         in f: @differentiable (Self, T) -> Tensor<R>
     ) -> (value: Tensor<R>, gradient: (TangentVector, T.TangentVector)) {
         let (y, pb) = self.valueWithPullback(at: x, in: f)
-        precondition(y.rank == 0)
+        // precondition(y.rank == 0)
         return (y, pb(Tensor<R>(1)))
     }
 }
@@ -65,7 +65,7 @@ public func valueWithGradient<T, R>(
 ) -> (value: Tensor<R>, gradient: T.TangentVector)
 where T: Differentiable, R: TensorFlowFloatingPoint {
     let (y, pullback) = valueWithPullback(at: x, in: f)
-    precondition(y.rank == 0)
+    // precondition(y.rank == 0)
     return (y, pullback(Tensor<R>(1)))
 }
 
@@ -77,7 +77,7 @@ public func valueWithGradient<T, U, R>(
 ) -> (value: Tensor<R>, gradient: (T.TangentVector, U.TangentVector))
     where T: Differentiable, U: Differentiable, R: TensorFlowFloatingPoint {
     let (y, pullback) = valueWithPullback(at: x, y, in: f)
-    precondition(y.rank == 0)
+    // precondition(y.rank == 0)
     return (y, pullback(Tensor<R>(1)))
 }
 
@@ -90,7 +90,7 @@ public func valueWithGradient<T, U, R>(
 // ) -> (value: Tensor<R>, gradient: (T.TangentVector, U.TangentVector, V.TangentVector))
 //   where T: Differentiable, U: Differentiable, V: Differentiable, R: TensorFlowFloatingPoint {
 //   let (y, pullback) = valueWithPullback(at: x, y, z, in: f)
-//   precondition(y.rank == 0)
+//   // precondition(y.rank == 0)
 //   return (y, pullback(Tensor<R>(1)))
 // }
 
