@@ -699,6 +699,12 @@ extension _ExecutionContext {
     }
 }
 
+extension _RuntimeConfig {
+    static public func registerMaterializationCallback(_ f: @escaping (String) -> ()) {
+        LazyTensor._materializationCallback = f
+    }
+}
+
 // Elements in `outputs` can come from two sources:
 // a) Symbolic tensors produced by tensor ops, and added as trace graph nodes.
 // b) Concrete tensors produced by host code (e.g. Tensor(1.0)).
