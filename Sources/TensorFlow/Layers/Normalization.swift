@@ -67,11 +67,15 @@ public struct BatchNorm<Scalar: TensorFlowFloatingPoint>: Layer {
 
     @differentiable
     private func applyingTraining(to input: Tensor<Scalar>) -> Tensor<Scalar> {
-        let positiveAxis = (input.rank + axis) % input.rank
-        var normalizedAxes = Array(0..<input.rank)
-        normalizedAxes.remove(at: positiveAxis)
-        let mean = input.mean(alongAxes: normalizedAxes)
-        let variance = input.variance(alongAxes: normalizedAxes)
+        let positiveAxis = Raw.mod((input.rankTensor + Tensor<Int32>(Int32(axis))), input.rankTensor)
+        let axes = Tensor<Int32>([Tensor<Int32>(0), positiveAxis])
+        let mean = input.mean(alongAxes: axes).withoutDerivative()
+        let variance = input.variance(alongAxes: axes).withoutDerivative()
+        // let positiveAxis = (input.rank + axis) % input.rank
+        // var normalizedAxes = Array(0..<input.rank)
+        // normalizedAxes.remove(at: positiveAxis)
+        // let mean = input.mean(alongAxes: normalizedAxes)
+        // let variance = input.variance(alongAxes: normalizedAxes)
         runningMean.value += (mean - runningMean.value) * (1 - momentum)
         runningVariance.value += (
             variance - runningVariance.value) * (1 - momentum)
